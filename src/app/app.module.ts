@@ -50,6 +50,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { DialogSimpleComponent } from './dialog-simple/dialog-simple.component';
+import { StorageWithHistoryService } from './service/storage-with-history.service';
 
 @NgModule({
   declarations: [
