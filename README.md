@@ -6,3 +6,6 @@ This project is
 
 * A poc for test tools/framework to compile and deploy web3App
 
+# ressources
+
+For deploy smart contracts use [storageWithHistorySolidity Project](https://github.com/thierryTrolle/storage-with-history-solidity)
