@@ -32,15 +32,15 @@ export class Web3appComponent implements OnInit {
   // account metamask at initialisation
   public currentAccount: any = '0x';
 
-  public valueStored:any=0;
+  public valueStored: any = 0;
 
-  public newValue:any=0;
+  public newValue: any = 0;
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private storageWithHistory:StorageWithHistoryService
+    private storageWithHistory: StorageWithHistoryService
   ) {
     this.connect();
   }
@@ -62,13 +62,13 @@ export class Web3appComponent implements OnInit {
   }
 
   connect() {
-    var that=this;
+    var that = this;
     window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts: any) => {
 
       this.handleAccountsChanged(accounts);
 
-      window.ethereum.on('accountsChanged', (x:any) => {
-        console.log("event accountsChanged:"+x);
+      window.ethereum.on('accountsChanged', (x: any) => {
+        console.log("event accountsChanged:" + x);
         window.location.reload();
       });
 
@@ -77,6 +77,13 @@ export class Web3appComponent implements OnInit {
         console.log("event disconnect");
         that.router.navigate(['home']);
       });
+
+
+      window.ethereum.on('chainChanged', (chainId:any) => {
+        console.log("chainChanged new id:"+chainId);
+        // window.location.reload();
+      });
+
     }).catch((err: any) => {
       // doesn't work ! because disconect reload page ?
       this.router.navigate(['home']);
@@ -86,33 +93,36 @@ export class Web3appComponent implements OnInit {
     this.loadValue();
   }
 
-  loadValue(){
+  loadValue() {
     this.storageWithHistory.getValue().then(
-      (value:any) =>{
+      (value: any) => {
         console.log(`promise result: ${value}`);
-        this.valueStored=value;
+        this.valueStored = value;
       }
     );
   }
 
-  setValue(){
-    this.storageWithHistory.setValue(this.newValue,this.currentAccount).then(
-      result=>{
-        console.log(result);
-        this.loadValue();
+  setValue() {
+    this.storageWithHistory.setValue(this.newValue, this.currentAccount).then(
+      result => {
+        if (result.receipt.status && result.logs[0].event == "EventSetValue") {
+          console.log(result);
+          this.loadValue();
+          this.newValue=0;
+        }
       }
     )
   }
-  
+
   ngOnInit(): void {
     console.log("ngOnInit()");
   }
 
-  ngOnChanges():void{
+  ngOnChanges(): void {
     console.log("ngOnChanges()");
   }
 
-  ngOnDestroy():void{
+  ngOnDestroy(): void {
     console.log("ngOnDestroy()");
   }
 
