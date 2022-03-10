@@ -80,8 +80,7 @@ export class Web3appComponent implements OnInit {
 
 
       window.ethereum.on('chainChanged', (chainId:any) => {
-        console.log("chainChanged new id:"+chainId);
-        // window.location.reload();
+        window.location.reload();
       });
 
     }).catch((err: any) => {
