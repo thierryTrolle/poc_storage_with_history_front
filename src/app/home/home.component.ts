@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogSimpleComponent } from '../dialog-simple/dialog-simple.component';
+import Web3 from "web3";
+import { Web3UtilService } from '../service/web3-util.service';
 
 declare let window: any;
 
@@ -16,6 +18,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     public dialog: MatDialog,
+    private web3UtilService: Web3UtilService
     ) { 
     //Test if browser wallet installed 
     if (typeof window.ethereum !== 'undefined') {
@@ -33,7 +36,20 @@ export class HomeComponent implements OnInit {
   connect(){
     window.ethereum.request({ method: 'eth_requestAccounts' }).then(() => {
       console.log("Use Mist/MetaMask's provider");
-      this.router.navigate(['web3app']);
+      this.web3UtilService.getChainId().then(
+        chainId=>{
+          if(this.web3UtilService.isSupportedChainId(chainId.toString())){
+            this.router.navigate(['web3app']);
+          }else{
+            this.dialog.open(DialogSimpleComponent, {
+              data: {
+                tittle: 'Browser wallet Error.',
+                content: 'no supported network !'
+              },
+            });
+          }
+        }
+      );
     }).catch((err: any) => {
       if (err.code === 4001) { // EIP 1193 userRejectedRequest error
         console.log('Please connect to MetaMask.');
