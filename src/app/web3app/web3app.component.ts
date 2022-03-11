@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 // import { StorageWithHistoryService } from '../service/storage-with-history.service';
 import Web3 from "web3";
+import { DialogSimpleComponent } from '../dialog-simple/dialog-simple.component';
 import { StorageWithHistoryService } from '../service/storage-with-history.service';
 
 const contract = require('@truffle/contract');
@@ -26,10 +27,8 @@ export class Web3appComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  //contract storage
-  // contractInstance:any=null;
+  public isProcessing:boolean=false;
 
-  // account metamask at initialisation
   public currentAccount: any = '0x';
 
   public valueStored: any = 0;
@@ -102,12 +101,26 @@ export class Web3appComponent implements OnInit {
   }
 
   setValue() {
+    this.isProcessing=true;
     this.storageWithHistory.setValue(this.newValue, this.currentAccount).then(
       result => {
         if (result.receipt.status && result.logs[0].event == "EventSetValue") {
           console.log(result);
           this.loadValue();
           this.newValue=0;
+          this.isProcessing=false;
+        }
+      },
+      error=>{
+        this.isProcessing=false;
+        console.error(error);
+        if(error.code && error.message){
+          this.dialog.open(DialogSimpleComponent, {
+            data: {
+              tittle: 'Error code '+error.code,
+              content: error.message
+            },
+          });
         }
       }
     )

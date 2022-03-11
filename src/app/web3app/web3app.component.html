@@ -2,7 +2,7 @@
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
         <mat-card>
-             <mat-card-title>Poc Storage with History App</mat-card-title> 
+            <mat-card-title>Poc Storage with History App</mat-card-title>
             <mat-card-subtitle>It's poc for test and deploy web3 App</mat-card-subtitle>
             <mat-card-actions>
                 <!-- <button mat-button (click)="connect()">Connect</button> -->
@@ -17,12 +17,27 @@
                     value stored:{{valueStored}}
                     <br>
                     <form class="example-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>enter a new Value</mat-label>
-                          <input matInput placeholder="Ex. 102" [(ngModel)]="newValue"  [ngModelOptions]="{standalone: true}">
+                        <!-- <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>enter a new Value</mat-label>
+                            <input matInput placeholder="Ex. 102" [(ngModel)]="newValue"
+                                [ngModelOptions]="{standalone: true}">
                         </mat-form-field>
-                        <button mat-stroked-button (click)="setValue()" color="primary">Save</button>
-                      </form>
+                        <button mat-stroked-button (click)="setValue()" color="primary">Store new value</button>
+                        <mat-spinner diameter="30"></mat-spinner> -->
+                        <mat-grid-list cols="2" rowHeight="2:1">
+                            <mat-grid-tile>
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>enter a new Value</mat-label>
+                                    <input matInput placeholder="Ex. 102" [(ngModel)]="newValue"
+                                        [ngModelOptions]="{standalone: true}">
+                                </mat-form-field>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <button *ngIf="!isProcessing" mat-stroked-button (click)="setValue()" color="primary">Store new value</button>
+                                <mat-spinner *ngIf="isProcessing" diameter="30"></mat-spinner>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </form>
                 </div>
             </mat-card-actions>
         </mat-card>
