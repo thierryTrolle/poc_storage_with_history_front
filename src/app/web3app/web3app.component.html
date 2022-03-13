@@ -13,12 +13,6 @@
                     <h2>You must connect wallet !</h2>
                 </div>
                 <div *ngIf="currentAccount!='0x'">
-                    <!-- <mat-grid-list cols="2" rowHeight="3:1">
-                        <mat-grid-tile><h3>Current Address:</h3></mat-grid-tile>
-                        <mat-grid-tile><mat-button-toggle value="bold">{{truncateAddress(currentAccount)}}</mat-button-toggle></mat-grid-tile>
-                        <mat-grid-tile><h3>value stored:</h3></mat-grid-tile>
-                        <mat-grid-tile><mat-button-toggle value="bold">{{this.valueStored}}</mat-button-toggle></mat-grid-tile>
-                    </mat-grid-list> -->
                     <h3>Current Address:<mat-button-toggle value="bold">{{truncateAddress(currentAccount)}}</mat-button-toggle></h3>
 
                     <h3>value stored:<mat-button-toggle value="bold">{{this.valueStored}}</mat-button-toggle></h3>

@@ -6,6 +6,8 @@ This project is
 
 * A poc for test tools/framework to compile and deploy web3App
 
+* [Demo poc-storage.hello-world.link](https://poc-storage.hello-world.link) worked on Mumbai Polygon Testnet. Use [faucet](https://faucet.polygon.technology/) to get token.
+
 # install
 
 ## prerequisite
@@ -26,7 +28,7 @@ sorry you must download app !
 $ sudo install -g @angular/cli @angular/core
 ```
 
-## Install for test
+## Install for Dev Mode
 
 * Install dependency
 ```sh
@@ -36,6 +38,18 @@ npm install
 * start debug server with angular
 ```sh
 $ ng serve
+```
+
+## Install for Prod
+
+* Install dependency
+```sh
+npm install
+```
+
+* start debug server with angular
+```sh
+$ ng build
 ```
 
 
