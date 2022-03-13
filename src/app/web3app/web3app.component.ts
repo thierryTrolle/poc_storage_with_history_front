@@ -3,11 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+  MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-// import { StorageWithHistoryService } from '../service/storage-with-history.service';
-import Web3 from "web3";
 import { DialogSimpleComponent } from '../dialog-simple/dialog-simple.component';
 import { JavascriptUtilService } from '../service/javascript-util.service';
 import { StorageWithHistoryService } from '../service/storage-with-history.service';
@@ -44,11 +42,6 @@ export class Web3appComponent implements OnInit {
     private storageWithHistory: StorageWithHistoryService
   ) {
     this.connect();
-  }
-
-  handleChainChanged(_chainId: any) {
-    // We recommend reloading the page, unless you must do otherwise
-    window.location.reload();
   }
 
   handleAccountsChanged(accounts: any) {
@@ -119,6 +112,12 @@ export class Web3appComponent implements OnInit {
             this.loadValue();
             this.newValue = 0;
             this.isProcessing = false;
+            this.dialog.open(DialogSimpleComponent, {
+              data: {
+                tittle: 'User info',
+                content: 'Congrats, new value is stored'
+              },
+            });
           }
         },
         error => {
@@ -156,5 +155,18 @@ export class Web3appComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });;
   }
+
+   /**
+   * Truncates an ethereum address to the format 0x0000…0000
+   * @param address Full address to truncate
+   * @returns Truncated address
+   */
+    public truncateAddress(address: any) {
+      const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
+  
+      let match = address.match(truncateRegex);
+      if (!match) return address;
+      return `${match[1]}…${match[2]}`;
+    };
 
 }
