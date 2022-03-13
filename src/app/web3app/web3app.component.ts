@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { DialogSimpleComponent } from '../dialog-simple/dialog-simple.component';
 import { JavascriptUtilService } from '../service/javascript-util.service';
 import { StorageWithHistoryService } from '../service/storage-with-history.service';
+import { Web3UtilService } from '../service/web3-util.service';
 
 const contract = require('@truffle/contract');
 const storageArtifact = require('../../../build/contracts/StorageWithHistory.json');
@@ -39,7 +40,8 @@ export class Web3appComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private javascriptUtils: JavascriptUtilService,
-    private storageWithHistory: StorageWithHistoryService
+    private storageWithHistory: StorageWithHistoryService,
+    private web3UtilService:Web3UtilService
   ) {
     this.connect();
   }
@@ -54,10 +56,27 @@ export class Web3appComponent implements OnInit {
       // Do any other work!
     }
   }
+  reload(){
+    window.location.reload();
+  }
 
   connect() {
     var that = this;
     window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts: any) => {
+
+      //test chain id is supported
+      this.web3UtilService.getChainId().then(
+        chainId=>{
+          if(!this.web3UtilService.isSupportedChainId(chainId.toString())){
+            this.dialog.open(DialogSimpleComponent, {
+              data: {
+                tittle: 'Browser wallet Error.',
+                content: 'no supported network !'
+              },
+            });
+          }
+        }
+      );
 
       this.handleAccountsChanged(accounts);
 

@@ -10,7 +10,7 @@
             <h2>Congratulation you are now connected</h2>
             <mat-card-content>
                 <div *ngIf="currentAccount=='0x'">
-                    You must connect wallet !
+                    <h2>You must connect wallet !</h2>
                 </div>
                 <div *ngIf="currentAccount!='0x'">
                     <!-- <mat-grid-list cols="2" rowHeight="3:1">
@@ -40,8 +40,7 @@
                 </div>
             </mat-card-content>
             <mat-card-actions>
-              <!-- <button mat-button>LIKE</button>
-              <button mat-button>SHARE</button> -->
+              <button (click)="reload()" mat-button>Reconnect with new account address</button>
             </mat-card-actions>
           </mat-card>
     </mat-grid-tile>
